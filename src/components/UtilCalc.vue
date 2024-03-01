@@ -1,28 +1,26 @@
 <template>
-  <v-container>
+  <v-container class="content">
     <v-responsive class="align-center text-center fill-height px-4 custom-width">
       <v-row class="d-flex justify-center mb-3">
         <p class="title">Util Calculator</p>
       </v-row>
-      <v-row>
+      <v-row v-for="(utility, index) in utilities" :key="index">
         <v-col>
-          <v-text-field v-model="gas" placeholder="Enter Gas amount" class="input-field"></v-text-field>
+          <v-text-field v-model="utility.name" :placeholder="'Enter Utility name'" class="input-field"></v-text-field>
+        </v-col>
+        <v-col>
+          <v-text-field v-model="utility.amount" :placeholder="'Enter ' + utility.name + ' amount'"
+            class="input-field"></v-text-field>
         </v-col>
       </v-row>
       <v-row>
         <v-col>
-          <v-text-field v-model="electric" placeholder="Enter Electric amount" class="input-field"></v-text-field>
+          <v-btn size="large" @click="addUtilityField" block>Add Utility</v-btn>
         </v-col>
-      </v-row>
-      <v-row>
-        <v-col>
-          <v-text-field v-model="internet" placeholder="Enter Internet amount" class="input-field"></v-text-field>
-        </v-col>
-      </v-row>
-      <v-row>
         <v-col>
           <v-btn size="large" @click="generate" block>Generate</v-btn>
         </v-col>
+
       </v-row>
       <v-row>
         <v-col>
@@ -31,7 +29,7 @@
             <hr class="my-2">
             <v-card-text>
               <h2 v-for="transfer in result" :key="transfer.from + transfer.to">
-                {{ transfer.from }} pays {{ transfer.amount }} to {{ transfer.to }}
+                {{ transfer.from }} pays ${{ transfer.amount }} to {{ transfer.to }}
                 <div class="my-4" />
               </h2>
             </v-card-text>
@@ -40,44 +38,39 @@
       </v-row>
     </v-responsive>
   </v-container>
+  <v-footer class="copyright" border>Copyright (c) 2024 Campbell Frost</v-footer>
 </template>
 
 <script>
 export default {
   data() {
     return {
-      gas: null,
-      electric: null,
-      internet: null,
+      utilities: [{ name: 'Gas', amount: null }, { name: 'Electric', amount: null }, { name: 'Internet', amount: null }],
       result: null,
     };
   },
   methods: {
     generate() {
-      const total = parseFloat(this.gas || 0) + parseFloat(this.electric || 0) + parseFloat(this.internet || 0);
-      const average = total / 3;
+      const total = this.utilities.reduce((acc, utility) => acc + parseFloat(utility.amount || 0), 0);
+      const average = total / this.utilities.length;
       const aboveAverage = [];
       const belowAverage = [];
 
-      if (parseFloat(this.gas || 0) > average) aboveAverage.push({ name: 'Gas', amount: parseFloat(this.gas || 0) });
-      else belowAverage.push({ name: 'Gas', amount: parseFloat(this.gas || 0) });
-
-      if (parseFloat(this.electric || 0) > average) aboveAverage.push({ name: 'Electric', amount: parseFloat(this.electric || 0) });
-      else belowAverage.push({ name: 'Electric', amount: parseFloat(this.electric || 0) });
-
-      if (parseFloat(this.internet || 0) > average) aboveAverage.push({ name: 'Internet', amount: parseFloat(this.internet || 0) });
-      else belowAverage.push({ name: 'Internet', amount: parseFloat(this.internet || 0) });
+      this.utilities.forEach(utility => {
+        if (parseFloat(utility.amount || 0) > average) aboveAverage.push({ name: utility.name, amount: parseFloat(utility.amount || 0) });
+        else belowAverage.push({ name: utility.name, amount: parseFloat(utility.amount || 0) });
+      });
 
       const amountsToTransfer = [];
-      aboveAverage.forEach(utility => {
-        let difference = utility.amount - average;
+      aboveAverage.forEach(above => {
+        let difference = above.amount - average;
         belowAverage.forEach(below => {
           if (below.amount < average) {
             const transferAmount = Math.min(difference, average - below.amount);
             if (transferAmount > 0) {
               amountsToTransfer.push({
                 from: below.name,
-                to: utility.name,
+                to: above.name,
                 amount: transferAmount.toFixed(2),
               });
               difference -= transferAmount;
@@ -88,15 +81,19 @@ export default {
 
       this.result = amountsToTransfer;
     },
+    addUtilityField() {
+      const newUtility = { name: 'New Utility', amount: null };
+      this.utilities.push(newUtility);
+    }
   },
 };
 </script>
 
 <style>
-
-.custom-width{
+.custom-width {
   max-width: 1200px;
 }
+
 .title {
   padding-top: 50px;
   font-size: 50px;
@@ -108,5 +105,15 @@ export default {
 
 .v-input__details {
   display: none;
+}
+
+.content {
+  min-height: calc(100vh - 100px);
+}
+
+.copyright {
+  margin-top: 59px;
+  margin-bottom: -100px;
+  padding-bottom: 5px;
 }
 </style>
