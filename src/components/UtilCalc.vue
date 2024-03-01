@@ -1,7 +1,7 @@
 <template>
-  <v-container class="content">
-    <v-responsive class="align-center text-center fill-height px-4 custom-width">
-      <v-row class="d-flex justify-center mb-3">
+  <v-container class="content d-flex justify-center">
+    <v-responsive max-width="1000px" class="fill-height px-4 custom-width">
+      <v-row class="d-flex justify-center my-5">
         <p class="title">Util Calculator</p>
       </v-row>
       <v-row v-for="(utility, index) in utilities" :key="index">
@@ -38,7 +38,7 @@
       </v-row>
     </v-responsive>
   </v-container>
-  <v-footer class="copyright" border>Copyright (c) 2024 Campbell Frost</v-footer>
+  <v-footer class="copyright" border>Copyright © 2024 Campbell Frost</v-footer>
 </template>
 
 <script>
@@ -113,7 +113,5 @@ export default {
 
 .copyright {
   margin-top: 59px;
-  margin-bottom: -100px;
-  padding-bottom: 5px;
 }
 </style>
