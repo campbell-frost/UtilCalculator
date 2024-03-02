@@ -112,6 +112,6 @@ export default {
 }
 
 .copyright {
-  margin-top: 59px;
+  margin-top: 58px;
 }
 </style>
