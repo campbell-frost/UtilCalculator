@@ -10,7 +10,8 @@
         </v-col>
         <v-col>
           <v-text-field v-model="utility.amount" :placeholder="'Enter ' + utility.name + ' amount'"
-            class="input-field"></v-text-field>
+                class="input-field" prepend-inner-icon="mdi-currency-usd"></v-text-field>
+
         </v-col>
       </v-row>
       <v-row>
