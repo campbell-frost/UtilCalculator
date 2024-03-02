@@ -36,7 +36,6 @@
             <hr>
             <v-card-text>
               <h2>Cost Per Person: ${{ (total / utilities.length).toFixed(2) }}</h2>
-
             </v-card-text>
           </v-card>
 
