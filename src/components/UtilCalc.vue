@@ -30,10 +30,16 @@
             <v-card-text>
               <h2 v-for="transfer in result" :key="transfer.from + transfer.to">
                 {{ transfer.from }} pays ${{ transfer.amount }} to {{ transfer.to }}
-                <div class="my-4" />
+                <div class="my-4"></div>
               </h2>
             </v-card-text>
+            <hr>
+            <v-card-text>
+              <h2>Cost Per Person: ${{ (total / utilities.length).toFixed(2) }}</h2>
+
+            </v-card-text>
           </v-card>
+
         </v-col>
       </v-row>
     </v-responsive>
@@ -47,12 +53,13 @@ export default {
     return {
       utilities: [{ name: 'Gas', amount: null }, { name: 'Electric', amount: null }, { name: 'Internet', amount: null }],
       result: null,
+      total: 0,
     };
   },
   methods: {
     generate() {
-      const total = this.utilities.reduce((acc, utility) => acc + parseFloat(utility.amount || 0), 0);
-      const average = total / this.utilities.length;
+      this.total = this.utilities.reduce((acc, utility) => acc + parseFloat(utility.amount || 0), 0);
+      const average = this.total / this.utilities.length;
       const aboveAverage = [];
       const belowAverage = [];
 
@@ -87,6 +94,7 @@ export default {
     }
   },
 };
+
 </script>
 
 <style>
