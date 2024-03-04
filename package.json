@@ -8,6 +8,7 @@
   },
   "dependencies": {
     "@mdi/font": "7.0.96",
+    "@vercel/analytics": "^1.2.2",
     "roboto-fontface": "*",
     "vue": "^3.3.0",
     "vuetify": "^3.0.0"

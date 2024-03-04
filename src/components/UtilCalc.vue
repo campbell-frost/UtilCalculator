@@ -11,7 +11,6 @@
         <v-col>
           <v-text-field v-model="utility.amount" :placeholder="'Enter ' + utility.name + ' amount'"
                 class="input-field" prepend-inner-icon="mdi-currency-usd"></v-text-field>
-
         </v-col>
       </v-row>
       <v-row>
@@ -51,7 +50,7 @@
 export default {
   data() {
     return {
-      utilities: [{ name: 'Gas', amount: null }, { name: 'Electric', amount: null }, { name: 'Internet', amount: null }],
+      utilities: [{ name: 'Gas', amount: null }, { name: 'Electric', amount: null }, { name: 'Internet', amount: null }, { name: 'Water', amount: null }],
       result: null,
       total: 0,
     };
