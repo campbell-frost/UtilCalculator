@@ -2,7 +2,7 @@
   <v-app>
     <v-main>
       <UtilCalc />
-      <analytics />
+      <inject />
     </v-main>
   </v-app>
 </template>
