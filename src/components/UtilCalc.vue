@@ -5,10 +5,7 @@
         <v-col>
           <p class="title">Util Calculator</p>
         </v-col>
-        <v-col class="d-flex justify-end">
-          <v-switch inset class="pt-5" color="info" v-model="darkMode" @change="toggleTheme()"
-            :label="`Change to ${darkMode ? 'Dark' : 'Light'} mode`"></v-switch>
-        </v-col>
+
       </v-row>
 
       <v-row v-for="(utility, index) in utilities" :key="index">
