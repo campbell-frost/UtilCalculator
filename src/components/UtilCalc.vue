@@ -6,7 +6,7 @@
           <p class="title">Util Calculator</p>
         </v-col>
         <v-col class="d-flex justify-end">
-          <v-switch inset class="pt-4" color="info" v-model="darkMode" @change="toggleTheme()"
+          <v-switch inset class="pt-5" color="info" v-model="darkMode" @change="toggleTheme()"
             :label="`Change to ${darkMode ? 'Dark' : 'Light'} mode`"></v-switch>
         </v-col>
       </v-row>
@@ -68,14 +68,14 @@ export default {
       { name: 'Water', amount: null }
     ]);
     const result = ref(null);
-    let total = ref(0);
+    let total = 0;
 
     const theme = useTheme();
     const darkMode = ref(false);
 
     const generate = () => {
-      total.value = utilities.value.reduce((acc, utility) => acc + parseFloat(utility.amount || 0), 0);
-      const average = total.value / utilities.value.length;
+      total = utilities.value.reduce((acc, utility) => acc + parseFloat(utility.amount || 0), 0);
+      const average = total / utilities.value.length;
       const aboveAverage = [];
       const belowAverage = [];
 
@@ -119,9 +119,9 @@ export default {
       result,
       generate,
       addUtilityField,
-      total, 
+      total,
       toggleTheme,
-      darkMode,
+      darkMode
     };
   }
 };
