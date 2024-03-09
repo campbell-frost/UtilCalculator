@@ -1,13 +1,9 @@
 <template>
   <v-container class="content d-flex justify-center">
     <v-responsive max-width="1000px" class="fill-height px-4 custom-width">
-      <v-row align="center mt-5">
-        <v-col>
-          <p class="title">Util Calculator</p>
-        </v-col>
-
+      <v-row class="d-flex justify-center my-5">
+        <p class="title">Util Calculator</p>
       </v-row>
-
       <v-row v-for="(utility, index) in utilities" :key="index">
         <v-col>
           <v-text-field v-model="utility.name" :placeholder="'Enter Utility name'" class="input-field"></v-text-field>
@@ -27,7 +23,7 @@
 
       </v-row>
       <v-row>
-        <v-col class="pb-4">
+        <v-col>
           <v-card class="mt-3" v-if="result">
             <v-card-title>Results</v-card-title>
             <hr class="my-2">
@@ -47,36 +43,26 @@
       </v-row>
     </v-responsive>
   </v-container>
-  <v-footer class="copyright" border>
-    Copyright © 2024 Campbell Frost
-  </v-footer>
+  <v-footer class="copyright" border>Copyright © 2024 Campbell Frost</v-footer>
 </template>
 
 <script>
-import { ref } from 'vue';
-import { useTheme } from "vuetify";
-
 export default {
-  setup() {
-    const utilities = ref([
-      { name: 'Gas', amount: null },
-      { name: 'Electric', amount: null },
-      { name: 'Internet', amount: null },
-      { name: 'Water', amount: null }
-    ]);
-    const result = ref(null);
-    let total = 0;
-
-    const theme = useTheme();
-    const darkMode = ref(false);
-
-    const generate = () => {
-      total = utilities.value.reduce((acc, utility) => acc + parseFloat(utility.amount || 0), 0);
-      const average = total / utilities.value.length;
+  data() {
+    return {
+      utilities: [{ name: 'Gas', amount: null }, { name: 'Electric', amount: null }, { name: 'Internet', amount: null }, { name: 'Water', amount: null }],
+      result: null,
+      total: 0,
+    };
+  },
+  methods: {
+    generate() {
+      this.total = this.utilities.reduce((acc, utility) => acc + parseFloat(utility.amount || 0), 0);
+      const average = this.total / this.utilities.length;
       const aboveAverage = [];
       const belowAverage = [];
 
-      utilities.value.forEach(utility => {
+      this.utilities.forEach(utility => {
         if (parseFloat(utility.amount || 0) > average) aboveAverage.push({ name: utility.name, amount: parseFloat(utility.amount || 0) });
         else belowAverage.push({ name: utility.name, amount: parseFloat(utility.amount || 0) });
       });
@@ -99,29 +85,15 @@ export default {
         });
       });
 
-      result.value = amountsToTransfer;
-    };
-
-    const addUtilityField = () => {
+      this.result = amountsToTransfer;
+    },
+    addUtilityField() {
       const newUtility = { name: 'New Utility', amount: null };
-      utilities.value.push(newUtility);
-    };
-
-    const toggleTheme = () => {
-      theme.global.name.value = darkMode.value ? "light" : "dark";
+      this.utilities.push(newUtility);
     }
-
-    return {
-      utilities,
-      result,
-      generate,
-      addUtilityField,
-      total,
-      toggleTheme,
-      darkMode
-    };
-  }
+  },
 };
+
 </script>
 
 <style>
@@ -130,6 +102,7 @@ export default {
 }
 
 .title {
+  padding-top: 50px;
   font-size: 50px;
 }
 
